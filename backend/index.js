@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const { getRows, getRow, getHeaders, addRow } = require('./sheets-utils')
+const { getRows, getRow, getHeaders, addRow, getSlugs } = require('./sheets-utils')
 
 const app = express()
 const PORT = 3001
@@ -47,12 +47,16 @@ app.post('/', (req, res) => {
                 res.status(400).json({error: `Missing required field ${key}.`})
             }
         }
-        
-        addRow(req.body).then(() => {
-            res.status(200).json(req.body)
-        }).catch(() => {
-            res.status(500).json({error: 'Could not add entry'})
+
+        getSlugs().then(slugs => {
+            console.log(slugs)
+            addRow(req.body).then(() => {
+                res.status(200).json(req.body)
+            }).catch(() => {
+                res.status(500).json({error: 'Could not add entry'})
+            })
         })
+        
 
     }).catch(err => {
         res.status(500).json({error: 'Error checking validity of data.'})

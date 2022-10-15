@@ -102,6 +102,25 @@ async function addRow(data) {
   })
 }
 
+async function getSlugs() {
+  const sheets = await _getGoogleSheetClient()
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.GOOGLE_SHEETS_ID,
+    range: `${sheetName}!A:A`,
+  });
+
+  console.log(res)
+
+  let slugs = res.data.values
+  slugs.shift()
+
+  for (let i = 0; i < slugs.length; i++) {
+    slugs[i] = slugs[i][0]
+  }
+
+  return slugs
+}
+
 /**
  * 
  * @returns 
@@ -124,5 +143,6 @@ module.exports = {
     getRows,
     getRow,
     getHeaders,
-    addRow
+    addRow,
+    getSlugs
 }
