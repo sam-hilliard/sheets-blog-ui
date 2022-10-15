@@ -49,7 +49,10 @@ app.post('/', (req, res) => {
         }
 
         getSlugs().then(slugs => {
-            console.log(slugs)
+            if (slugs.includes(req.body.slug)) {
+                res.status(400).json({error: `Slug name, ${req.body.slug}, already exists.`})
+            } 
+            
             addRow(req.body).then(() => {
                 res.status(200).json(req.body)
             }).catch(() => {

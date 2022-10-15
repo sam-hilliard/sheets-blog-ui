@@ -109,8 +109,6 @@ async function getSlugs() {
     range: `${sheetName}!A:A`,
   });
 
-  console.log(res)
-
   let slugs = res.data.values
   slugs.shift()
 
