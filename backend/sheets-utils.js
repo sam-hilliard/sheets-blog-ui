@@ -132,6 +132,26 @@ async function updateRow(rowID, data) {
   })
 }
 
+async function deleteRow(rowID) {
+  const sheets = await _getGoogleSheetClient()
+  const slugs = await getSlugs()
+
+  if (!slugs.includes(rowID)) {
+    return {error: `Slug, ${rowID}, does not exist`}
+  }
+
+  const rowNum = slugs.indexOf(rowID) + 2
+  
+  sheets.spreadsheets.values.clear({
+    spreadsheetId: process.env.GOOGLE_SHEETS_ID,
+    range: `${sheetName}!A${rowNum}:F5`, 
+  }).then(() => {
+    return {msg: `Successfully deleted row with slug: ${rowID}`}
+  }).catch((err) => {
+    return {error: err}
+  })
+}
+
 /**
  * 
  * @param {*} data 
@@ -208,5 +228,6 @@ module.exports = {
     getRow,
     addRow,
     updateRow,
+    deleteRow,
     verifyPostData
 }

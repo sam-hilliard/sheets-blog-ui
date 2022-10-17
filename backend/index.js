@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const { getRows, getRow, addRow, updateRow, verifyPostData } = require('./sheets-utils')
+const { getRows, getRow, addRow, updateRow, deleteRow, verifyPostData } = require('./sheets-utils')
 
 const app = express()
 const PORT = 3001
@@ -61,6 +61,15 @@ app.post('/:id', (req, res) => {
         }
     }).catch(() => {
         res.status(500).json({error: 'Error checking validity of data.'})
+    })
+})
+
+// deleting an entry
+app.post('/delete/:id', (req, res) => {
+    deleteRow(req.params.id).then(response => {
+        res.status(200).json(response)
+    }).catch(err => {
+        res.status(500).json(err)
     })
 })
 
