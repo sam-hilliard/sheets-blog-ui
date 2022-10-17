@@ -7,7 +7,7 @@ require('dotenv').config()
 const {authenticate} = require('@google-cloud/local-auth')
 const {google} = require('googleapis')
 const sheetName = 'Sheet1'
-const range = 'A:G'
+const range = 'A:F'
 
 /**
  * 
@@ -93,41 +93,65 @@ async function addRow(data) {
     "values": [row]
   }
 
-  // error posting for some reason... resource issue?
   sheets.spreadsheets.values.append({
     spreadsheetId: process.env.GOOGLE_SHEETS_ID,
-    range: `${sheetName}!${range}`, // Or where you need the data to go 
+    range: `${sheetName}!${range}`,
     valueInputOption: 'RAW',
     resource: resource
   })
 }
 
-async function updateRow(rowID) {
-  const slugs = await getSlugs();
+/**
+ * 
+ * @param {*} rowID 
+ * @param {*} data 
+ */
+async function updateRow(rowID, data) {
+  const sheets = await _getGoogleSheetClient()
+  const slugs = await getSlugs()
+  const rowNum = slugs.indexOf(rowID) + 2
 
+  let row = []
+  let headers = await getHeaders()
+
+  // ensures data is entered in the correct order
+  headers.forEach(header => {
+    row.push(data[header])
+  })
+
+  let resource = {
+    "majorDimension": "ROWS",
+    "values": [row]
+  }
   
-  // const sheets = await _getGoogleSheetClient()
-  // const res = await sheets.spreadsheets.values.get({
-  //   spreadsheetId: process.env.GOOGLE_SHEETS_ID,
-  //   range: `${sheetName}!A:A`,
-  // });
+  sheets.spreadsheets.values.update({
+    spreadsheetId: process.env.GOOGLE_SHEETS_ID,
+    range: `${sheetName}!A${rowNum}:F5`, 
+    valueInputOption: 'RAW',
+    resource: resource
+  })
 }
 
+/**
+ * 
+ * @param {*} data 
+ * @param {*} isCreate 
+ * @returns 
+ */
 async function verifyPostData(data, isCreate) {
   const headers = await getHeaders()
   const slugs = await getSlugs()
 
-  // creation exclusive violations
+  // can't create a field with a duplicate slug (slug must be unique)
   if (isCreate) {
-    // can't create a field with a duplicate slug (slug must be unique)
     if (slugs.includes(data.slug)) {
       return {error: `Slug name, ${data.slug}, already exists.`}
     }
+  }
 
-    // insufficient number of fields entered
-    if (Object.keys(data).length < headers.length) {
-      return {error: 'Missing one or more fields.'}
-    }
+  // insufficient number of fields entered
+  if (Object.keys(data).length < headers.length) {
+    return {error: 'Missing one or more fields.'}
   }
 
   // checking for invalid fields
@@ -182,8 +206,7 @@ async function _getGoogleSheetClient() {
 module.exports = {
     getRows,
     getRow,
-    getHeaders,
     addRow,
-    getSlugs,
+    updateRow,
     verifyPostData
 }
