@@ -102,6 +102,48 @@ async function addRow(data) {
   })
 }
 
+async function updateRow(rowID) {
+  const slugs = await getSlugs();
+
+  
+  // const sheets = await _getGoogleSheetClient()
+  // const res = await sheets.spreadsheets.values.get({
+  //   spreadsheetId: process.env.GOOGLE_SHEETS_ID,
+  //   range: `${sheetName}!A:A`,
+  // });
+}
+
+async function verifyPostData(data, isCreate) {
+  const headers = await getHeaders()
+  const slugs = await getSlugs()
+
+  // creation exclusive violations
+  if (isCreate) {
+    // can't create a field with a duplicate slug (slug must be unique)
+    if (slugs.includes(data.slug)) {
+      return {error: `Slug name, ${data.slug}, already exists.`}
+    }
+
+    // insufficient number of fields entered
+    if (Object.keys(data).length < headers.length) {
+      return {error: 'Missing one or more fields.'}
+    }
+  }
+
+  // checking for invalid fields
+  for (let key in data) {
+    if (!headers.includes(key) || !data[key]) {
+        return {error: `Invalid field enterd: ${key}.`}
+    }
+  }
+
+  return data
+}
+
+/**
+ * 
+ * @returns 
+ */
 async function getSlugs() {
   const sheets = await _getGoogleSheetClient()
   const res = await sheets.spreadsheets.values.get({
@@ -142,5 +184,6 @@ module.exports = {
     getRow,
     getHeaders,
     addRow,
-    getSlugs
+    getSlugs,
+    verifyPostData
 }

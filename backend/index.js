@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const { getRows, getRow, getHeaders, addRow, getSlugs } = require('./sheets-utils')
+const { getRows, getRow, addRow, verifyPostData } = require('./sheets-utils')
 
 const app = express()
 const PORT = 3001
@@ -36,34 +36,53 @@ app.get('/:id', (req, res) => {
 app.post('/', (req, res) => {
 
     // getting headers for error checking
-    getHeaders().then(headers => {
+    // getHeaders().then(headers => {
 
-        if (Object.keys(req.body) < headers.length) {
-            res.status(400).json({error: 'Missing one or more fields.'})
-        }
+    //     if (Object.keys(req.body) < headers.length) {
+    //         res.status(400).json({error: 'Missing one or more fields.'})
+    //     }
         
-        for (let key in req.body) {
-            if (!headers.includes(key) || !req.body[key]) {
-                res.status(400).json({error: `Missing required field ${key}.`})
-            }
-        }
+    //     for (let key in req.body) {
+    //         if (!headers.includes(key) || !req.body[key]) {
+    //             res.status(400).json({error: `Missing required field ${key}.`})
+    //         }
+    //     }
 
-        getSlugs().then(slugs => {
-            if (slugs.includes(req.body.slug)) {
-                res.status(400).json({error: `Slug name, ${req.body.slug}, already exists.`})
-            } 
+    //     getSlugs().then(slugs => {
+    //         if (slugs.includes(req.body.slug)) {
+    //             res.status(400).json({error: `Slug name, ${req.body.slug}, already exists.`})
+    //         } 
             
+    //         addRow(req.body).then(() => {
+    //             res.status(200).json(req.body)
+    //         }).catch(() => {
+    //             res.status(500).json({error: 'Could not add entry'})
+    //         })
+    //     })
+        
+
+    // }).catch(err => {
+    //     res.status(500).json({error: 'Error checking validity of data.'})
+    // })
+
+    verifyPostData(req.body, true).then(message => {
+        if (Object.keys(message).includes('error')) {
+            res.status(400).json(message)
+        } else {
             addRow(req.body).then(() => {
                 res.status(200).json(req.body)
             }).catch(() => {
                 res.status(500).json({error: 'Could not add entry'})
             })
-        })
-        
-
-    }).catch(err => {
+        }
+    }).catch(() => {
         res.status(500).json({error: 'Error checking validity of data.'})
     })
+})
+
+// updating an entry
+app.post('/:id', (req, res) => {
+
 })
 
 app.listen(PORT, () => {
