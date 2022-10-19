@@ -66,7 +66,6 @@ app.post('/:id', (req, res) => {
 
 // deleting an entry
 app.post('/delete/:id', (req, res) => {
-
     deleteRow(req.params.id).then(response => {
         if (Object.keys(response).includes('error')) {
             res.status(400).json(response)
