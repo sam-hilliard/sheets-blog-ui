@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 
 export default function BlogPost(props) {
+
   return (
     <Paper className="blogpost">
         <div className="details-container">
@@ -14,7 +15,9 @@ export default function BlogPost(props) {
 
         <div className="btn-container">
             <IconButton aria-label="edit">
-                <EditIcon />
+                <Link to={`/edit-post/${props.slug}`}>
+                    <EditIcon />
+                </Link>
             </IconButton>
             <Button aria-label="delete" variant="contained" color="error">
                 <DeleteIcon />

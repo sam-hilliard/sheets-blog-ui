@@ -2,7 +2,8 @@ import React from 'react';
 import { Container } from '@mui/material';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import PostListPage from './components/Pages/PostListPage';
+import PostListPage from './components/Pages/PostListPage'
+import EditPost from './components/Pages/EditPost'
 
 import './App.css';
 
@@ -13,7 +14,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route exact path="/" element={<PostListPage />} />
-            <Route path="blog/:id" element={<PostListPage />} />
+            <Route path="edit-post/:id" element={<EditPost />} />
           </Routes>
         </BrowserRouter>
       </Container>
