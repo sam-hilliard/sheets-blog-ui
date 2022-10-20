@@ -10,7 +10,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <Container maxWidth="sm" className="main-container">
+      <Container maxWidth="md" className="main-container">
         <BrowserRouter>
           <Routes>
             <Route exact path="/" element={<PostListPage />} />

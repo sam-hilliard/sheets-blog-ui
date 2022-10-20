@@ -14,11 +14,11 @@ export default function BlogPost(props) {
         </div>
 
         <div className="btn-container">
-            <IconButton aria-label="edit">
-                <Link to={`/edit-post/${props.slug}`}>
+            <Link to={`/edit-post/${props.slug}`}>
+                <IconButton aria-label="edit">
                     <EditIcon />
-                </Link>
-            </IconButton>
+                </IconButton>
+            </Link>
             <Button aria-label="delete" variant="contained" color="error">
                 <DeleteIcon />
             </Button>
