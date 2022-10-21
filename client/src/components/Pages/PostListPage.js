@@ -17,11 +17,13 @@ export default function PostListPage() {
         <Typography variant="h2" component="h2">Blog Posts</Typography>
         <div className="bloglist-container">
             {posts.map(post => {
+                console.log(post)
                 return(
                     <BlogPost
                         key={post.slug}
                         title={post.title}
                         slug={post.slug}
+                        description={post.content}
                         pubdate={post.pupdate}
                     />
                 )

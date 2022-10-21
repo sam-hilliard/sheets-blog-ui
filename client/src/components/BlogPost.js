@@ -10,7 +10,7 @@ export default function BlogPost(props) {
     <Paper className="blogpost">
         <div className="details-container">
             <Typography variant="h5" component="h2">{props.title}</Typography>
-            <Typography variant="body1" component="p">{props.description}</Typography>
+            <div className="description-container"  dangerouslySetInnerHTML={{__html: props.description}}></div>
         </div>
 
         <div className="btn-container">

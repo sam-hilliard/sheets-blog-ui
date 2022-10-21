@@ -30,6 +30,12 @@
     gap: 1rem;
   }
 
+  .blogpost .description-container * {
+    text-overflow: ellipsis;
+    font-size: 1.25rem;
+    font-weight: lighter;
+  }
+
   /* Blog Post Edit Page */
   .edit-post-page {
     display: flex;
