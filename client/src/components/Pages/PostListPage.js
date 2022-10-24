@@ -17,7 +17,7 @@ export default function PostListPage() {
     <>
         <div className="bloglist-header">
             <Typography variant="h2" component="h2">Blog Posts</Typography>
-            <Link to="/new-post">
+            <Link to="/publish">
                 <Button variant="contained">New Post</Button>
             </Link>
         </div>

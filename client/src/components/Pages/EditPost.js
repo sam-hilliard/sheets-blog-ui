@@ -44,7 +44,7 @@ export default function EditPost() {
                 <Link to="/">
                     <Button variant="outlined">Cancel</Button>
                 </Link>
-                <Button variant="contained">Save</Button>
+                <Button variant="contained">{id ? 'Save' : 'Publish'}</Button>
             </div>
         </div>
     )

@@ -15,6 +15,7 @@ function App() {
           <Routes>
             <Route exact path="/" element={<PostListPage />} />
             <Route path="edit-post/:id" element={<EditPost />} />
+            <Route path="publish" element={<EditPost />} />
           </Routes>
         </BrowserRouter>
       </Container>
