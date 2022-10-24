@@ -4,14 +4,18 @@ import { useParams, Link } from 'react-router-dom'
 
 import { getBlogPost } from '../../hooks/utils/getBlogPosts';
 import { Button, TextField, Typography } from '@mui/material'
+import LoadingAnimation from '../LoadingAnimation';
 
 export default function EditPost() {
 
     const { id } = useParams()
     const [post, setPost] = useState({})
+    const [loading, setLoading] = useState(false)
     
     useEffect(() => {
+        setLoading(true)
         getBlogPost(id).then(res => setPost(res))
+        setLoading(false)
     }, [id])
 
     function handleChange(e) {
@@ -37,6 +41,10 @@ export default function EditPost() {
 
     function handleSubmit() {
         console.log(post)
+    }
+
+    if (loading) {
+        return <LoadingAnimation />
     }
 
     return (
