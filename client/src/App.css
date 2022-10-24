@@ -4,6 +4,12 @@
 
 /* Blog list page */
 
+.bloglist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .bloglist-container {
   margin-top: 20px;
   display: flex;

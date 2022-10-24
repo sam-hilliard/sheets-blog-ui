@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { Typography } from '@mui/material'
+import { Link } from 'react-router-dom';
+import { Typography, Button } from '@mui/material'
 import BlogPost from '../BlogPost';
 import { getBlogPosts } from '../../hooks/utils/getBlogPosts';
 
@@ -14,10 +15,14 @@ export default function PostListPage() {
 
     return (
     <>
-        <Typography variant="h2" component="h2">Blog Posts</Typography>
+        <div className="bloglist-header">
+            <Typography variant="h2" component="h2">Blog Posts</Typography>
+            <Link to="/new-post">
+                <Button variant="contained">New Post</Button>
+            </Link>
+        </div>
         <div className="bloglist-container">
             {posts.map(post => {
-                console.log(post)
                 return(
                     <BlogPost
                         key={post.slug}
