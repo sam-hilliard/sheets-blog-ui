@@ -53,7 +53,7 @@ export default function EditPost() {
                 <TextField onChange={handleChange} id="img" name="img" variant="outlined" value={post.img}/>
             </div>
 
-            <img src={post.img} alt={post.slug}/>
+            <img src={post.img} alt={post.img}/>
 
             <div className="input-field">
                 <Typography variant="body2" component="p">Date Published</Typography>

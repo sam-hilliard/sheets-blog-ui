@@ -1,16 +1,20 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import { Typography, Button } from '@mui/material'
-import BlogPost from '../BlogPost';
-import { getBlogPosts } from '../../hooks/utils/getBlogPosts';
+import BlogPost from '../BlogPost'
+import { getBlogPosts } from '../../hooks/utils/getBlogPosts'
+import LoadingAnimation from '../LoadingAnimation'
 
 export default function PostListPage() {
 
     const [posts, setPosts] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        setLoading(true)
         getBlogPosts().then(res => setPosts([...res]))
+        setLoading(false)
       }, [])    
 
     return (
@@ -34,6 +38,7 @@ export default function PostListPage() {
                 )
             })}
         </div>
+        {loading && <LoadingAnimation />}
     </>
 
     )
