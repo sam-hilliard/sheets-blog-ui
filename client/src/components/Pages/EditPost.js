@@ -6,16 +6,29 @@ import { getBlogPost } from '../../hooks/utils/getBlogPosts';
 import { Button, TextField, Typography } from '@mui/material'
 import LoadingAnimation from '../LoadingAnimation';
 
+import showdown from 'showdown'
+import TurndownService from 'turndown';
+
+
 export default function EditPost() {
 
     const { id } = useParams()
     const [post, setPost] = useState({})
     const [loading, setLoading] = useState(false)
+
+    const turndownService = new TurndownService()
+    
     
     useEffect(() => {
         setLoading(true)
-        getBlogPost(id).then(res => setPost(res))
-        setLoading(false)
+        getBlogPost(id).then(res => {
+            setPost(res)
+            setPost(prevPost => {
+                return {...prevPost, content: turndownService.turndown(prevPost.content)}
+            })
+            setLoading(false)
+        })
+
     }, [id])
 
     function handleChange(e) {
