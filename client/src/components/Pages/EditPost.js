@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, Redirect } from 'react-router-dom'
 
 import { getBlogPost } from '../../hooks/utils/getBlogPosts';
 import { Button, TextField, Typography } from '@mui/material'
@@ -16,6 +16,7 @@ export default function EditPost() {
     const { id } = useParams()
     const [post, setPost] = useState({})
     const [loading, setLoading] = useState(false)
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const turndownService = new TurndownService()
     const converter = new showdown.Converter()
@@ -57,22 +58,17 @@ export default function EditPost() {
     }
 
     function handleSubmit() {
-        setPost(prevPost => {
-            return {
-                    ...prevPost,
-                    content: converter.makeHtml(prevPost.content)
-                }
+        const data = {
+            ...post,
+            content: converter.makeHtml(post.content)
+        }
+
+        console.log(`/${id ? id : ''}`)
+        axios.post(`/${id ? id : ''}`, data).then(res => { 
+            console.log(res)
+        }).catch(err => {
+            console.log(err.response)
         })
-
-        // edit post
-        if (id) {
-            axios.post(`/${id}`, post).then(res => console.log(res)).catch(err => console.log(err))
-        }
-
-        // new post
-        else {
-            axios.post('/', post).then(res => console.log(res)).catch(err => console.log(err))
-        }
     }
 
     if (loading) {
@@ -87,6 +83,11 @@ export default function EditPost() {
             </div>
 
             <Typography variant="body1" component="p">Generated Slug: {post.slug} </Typography>
+
+            <div className="input-field">
+                <Typography variant="body2" component="p">Tags</Typography>
+                <TextField onChange={handleChange} id="tags" name="tags" variant="outlined" value={post.tags}/>
+            </div>
             
             <div className="input-field">
                 <Typography variant="body2" component="p">Image URL</Typography>
@@ -97,7 +98,7 @@ export default function EditPost() {
 
             <div className="input-field">
                 <Typography variant="body2" component="p">Date Published</Typography>
-                <TextField onChange={handleChange} id="date" name="date" variant="outlined" value={post.pubdate}/>
+                <TextField onChange={handleChange} id="pubdate" name="pubdate" variant="outlined" value={post.pubdate}/>
             </div>
 
             <div className="input-field">
