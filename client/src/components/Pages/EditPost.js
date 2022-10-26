@@ -7,7 +7,8 @@ import { Button, TextField, Typography } from '@mui/material'
 import LoadingAnimation from '../LoadingAnimation';
 
 import showdown from 'showdown'
-import TurndownService from 'turndown';
+import TurndownService from 'turndown'
+import axios from 'axios'
 
 
 export default function EditPost() {
@@ -17,6 +18,7 @@ export default function EditPost() {
     const [loading, setLoading] = useState(false)
 
     const turndownService = new TurndownService()
+    const converter = new showdown.Converter()
     
     
     useEffect(() => {
@@ -29,10 +31,12 @@ export default function EditPost() {
             setLoading(false)
         })
 
+        if (!id) {
+            setLoading(false)
+        }
     }, [id])
 
     function handleChange(e) {
-
 
         setPost(prevPost => {
             let updatedPost = {
@@ -53,7 +57,22 @@ export default function EditPost() {
     }
 
     function handleSubmit() {
-        console.log(post)
+        setPost(prevPost => {
+            return {
+                    ...prevPost,
+                    content: converter.makeHtml(prevPost.content)
+                }
+        })
+
+        // edit post
+        if (id) {
+            axios.post(`/${id}`, post).then(res => console.log(res)).catch(err => console.log(err))
+        }
+
+        // new post
+        else {
+            axios.post('/', post).then(res => console.log(res)).catch(err => console.log(err))
+        }
     }
 
     if (loading) {
