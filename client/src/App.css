@@ -2,6 +2,14 @@
   padding: 2rem;
 }
 
+.msg-error {
+  color: hsl(0, 85%, 45%);
+}
+
+.msg-success {
+  color: hsl(135, 85%, 45%);
+}
+
 /* Blog list page */
 
 .bloglist-header {
@@ -31,7 +39,7 @@
     gap: 1rem;
   }
 
-  .blogpost .btn-container {
+  .btn-container {
     display: flex;
     gap: 1rem;
   }
@@ -55,11 +63,6 @@
 
     .edit-post-page img {
       width: 400px;
-    }
-
-    .edit-post-page .edit-options-container {
-      display: flex;
-      gap: 0.5rem;
     }
 
 /* Loading animation styles */

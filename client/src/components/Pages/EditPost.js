@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useParams, Link, Redirect } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 
 import { getBlogPost } from '../../hooks/utils/getBlogPosts';
 import { Button, TextField, Typography } from '@mui/material'
@@ -16,7 +16,8 @@ export default function EditPost() {
     const { id } = useParams()
     const [post, setPost] = useState({})
     const [loading, setLoading] = useState(false)
-    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false)
+    const navigate = useNavigate()
 
     const turndownService = new TurndownService()
     const converter = new showdown.Converter()
@@ -106,7 +107,7 @@ export default function EditPost() {
                 <TextField onChange={handleChange} multiline name="content" minRows={20} id="content" variant="outlined" value={post.content}/>
             </div>
 
-            <div className="edit-options-container">
+            <div className="btn-container">
                 <Link to="/">
                     <Button variant="outlined">Cancel</Button>
                 </Link>
