@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 
 import { getBlogPost } from '../../hooks/utils/getBlogPosts';
 import { Button, TextField, Typography } from '@mui/material'
@@ -9,6 +9,7 @@ import LoadingAnimation from '../LoadingAnimation';
 import showdown from 'showdown'
 import TurndownService from 'turndown'
 import axios from 'axios'
+import StatusPage from './StatusPage';
 
 
 export default function EditPost() {
@@ -16,14 +17,13 @@ export default function EditPost() {
     const { id } = useParams()
     const [post, setPost] = useState({})
     const [loading, setLoading] = useState(false)
-    const [isSubmitted, setIsSubmitted] = useState(false)
-    const navigate = useNavigate()
-
-    const turndownService = new TurndownService()
-    const converter = new showdown.Converter()
+    const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState('');
     
     
     useEffect(() => {
+        const turndownService = new TurndownService()
+
         setLoading(true)
         getBlogPost(id).then(res => {
             setPost(res)
@@ -59,21 +59,27 @@ export default function EditPost() {
     }
 
     function handleSubmit() {
+        const converter = new showdown.Converter()
         const data = {
             ...post,
             content: converter.makeHtml(post.content)
         }
 
-        console.log(`/${id ? id : ''}`)
         axios.post(`/${id ? id : ''}`, data).then(res => { 
-            console.log(res)
+            setSubmitted(true)
         }).catch(err => {
-            console.log(err.response)
+            setSubmitted(true)
+            setError(err.response.data)
         })
     }
 
     if (loading) {
         return <LoadingAnimation />
+    }
+
+    if (submitted) {
+        console.log(error)
+        return <StatusPage error={error} id={id} />
     }
 
     return (

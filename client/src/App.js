@@ -17,10 +17,6 @@ function App() {
             <Route exact path="/" element={<PostListPage />} />
             <Route path="edit-post/:id" element={<EditPost />} />
             <Route path="publish" element={<EditPost />} />
-            <Route path="/status/:status">
-              <Route index element={<StatusPage />} />
-              <Route path=":id" element={<StatusPage />} />
-            </Route>
           </Routes>
         </BrowserRouter>
       </Container>
