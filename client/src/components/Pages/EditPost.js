@@ -78,7 +78,6 @@ export default function EditPost() {
     }
 
     if (submitted) {
-        console.log(error)
         return <StatusPage error={error} id={id} />
     }
 
