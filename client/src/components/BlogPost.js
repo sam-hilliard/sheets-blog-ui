@@ -14,7 +14,7 @@ export default function BlogPost(props) {
         <Paper className="blogpost">
             <div className="details-container">
                 <Typography variant="h5" component="h2">{props.title}</Typography>
-                <div className="description-container"  dangerouslySetInnerHTML={{__html: props.description}}></div>
+                <div className="description-container">{props.description.replace( /(<([^>]+)>)/ig, ' ')}</div>
             </div>
 
             <div className="btn-container">

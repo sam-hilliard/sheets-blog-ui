@@ -2,9 +2,9 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-import { getBlogPost } from '../../hooks/utils/getBlogPosts';
+import { getBlogPost } from '../../hooks/utils/getBlogPosts'
 import { Button, TextField, Typography } from '@mui/material'
-import LoadingAnimation from '../LoadingAnimation';
+import LoadingAnimation from '../LoadingAnimation'
 
 import showdown from 'showdown'
 import TurndownService from 'turndown'
@@ -104,7 +104,7 @@ export default function EditPost() {
 
             <div className="input-field">
                 <Typography variant="body2" component="p">Date Published</Typography>
-                <TextField onChange={handleChange} id="pubdate" name="pubdate" variant="outlined" value={post.pubdate}/>
+                <TextField onChange={handleChange} type="date" id="pubdate" name="pubdate" variant="outlined" value={post.pubdate}/>
             </div>
 
             <div className="input-field">
