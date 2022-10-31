@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
 import { getBlogPost } from '../../hooks/utils/getBlogPosts'

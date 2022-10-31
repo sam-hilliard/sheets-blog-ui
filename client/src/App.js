@@ -3,7 +3,6 @@ import { Container } from '@mui/material'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import PostListPage from './components/Pages/PostListPage'
-import StatusPage from './components/Pages/StatusPage'
 import EditPost from './components/Pages/EditPost'
 
 import './App.css';
