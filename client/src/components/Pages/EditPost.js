@@ -67,7 +67,7 @@ export default function EditPost() {
         }
         
         setLoading(true)
-        axios.post(`/${id ? id : ''}`, data).then(res => { 
+        axios.post(`/${id ? id : ''}`, data).then(() => { 
             setSubmitted(true)
             setLoading(false)
         }).catch(err => {
