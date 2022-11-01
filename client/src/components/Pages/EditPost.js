@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect, useContext } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { LoadingContext } from '../../context/LoadingContext'
 
 import { getBlogPost } from '../../hooks/utils/getBlogPosts'
 import { Button, TextField, Typography } from '@mui/material'
@@ -16,7 +17,7 @@ export default function EditPost() {
 
     const { id } = useParams()
     const [post, setPost] = useState({})
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useContext(LoadingContext)
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState('');
     
@@ -36,7 +37,7 @@ export default function EditPost() {
         if (!id) {
             setLoading(false)
         }
-    }, [id])
+    }, [id, setLoading])
 
     function handleChange(e) {
 
@@ -78,7 +79,7 @@ export default function EditPost() {
     }
 
     if (submitted) {
-        return <StatusPage error={error} id={id} />
+        return <StatusPage setSubmitState={setSubmitted} error={error} id={id} />
     }
 
     return (

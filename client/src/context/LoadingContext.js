@@ -2,7 +2,7 @@ import { createContext, useState } from 'react'
 
 export const LoadingContext = createContext()
 
-const UserDetailsProvider = (props) => {
+export function LoadingProvider(props) {
 
     const [loading, setLoading] = useState()
 
@@ -12,5 +12,3 @@ const UserDetailsProvider = (props) => {
         </LoadingContext.Provider>
     )
 }
-
-export default UserDetailsProvider

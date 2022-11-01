@@ -1,9 +1,13 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 import { Button } from '@mui/material'
+
 
 export default function StatusPage(props) {
 
+    function handleClick() {
+        props.setSubmitState(false)
+    }
 
     return (
         <div>
@@ -13,8 +17,10 @@ export default function StatusPage(props) {
             <p>{props.error}</p>
 
             <div className="btn-container">
-                <Button variant="outlined">Home</Button>
-                <Button variant="contained">{props.id ? 'Continue Editing' : 'Submit Another Post'}</Button>
+                <Link to="/" >
+                    <Button variant="outlined">Home</Button>
+                </Link>
+                <Button onClick={handleClick} variant="contained">{props.id ? 'Continue Editing' : 'Submit Another Post'}</Button>
             </div>
         </div>
     )

@@ -1,16 +1,17 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Typography, Button } from '@mui/material'
 import BlogPost from '../BlogPost'
 import { getBlogPosts } from '../../hooks/utils/getBlogPosts'
 import LoadingAnimation from '../LoadingAnimation'
 import axios from 'axios'
+import { LoadingContext } from '../../context/LoadingContext'
 
 export default function PostListPage() {
 
     const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useContext(LoadingContext)
 
     useEffect(() => {
         setLoading(true)
@@ -18,7 +19,7 @@ export default function PostListPage() {
             setPosts([...res])
             setLoading(false)
         })
-      }, [])    
+      }, [setLoading])    
 
 
     function handleDelete(id) {
