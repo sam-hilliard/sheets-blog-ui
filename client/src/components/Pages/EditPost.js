@@ -65,12 +65,15 @@ export default function EditPost() {
             ...post,
             content: converter.makeHtml(post.content)
         }
-
+        
+        setLoading(true)
         axios.post(`/${id ? id : ''}`, data).then(res => { 
             setSubmitted(true)
+            setLoading(false)
         }).catch(err => {
             setSubmitted(true)
             setError(err.response.data)
+            setLoading(false)
         })
     }
 
